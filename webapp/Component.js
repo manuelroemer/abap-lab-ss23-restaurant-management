@@ -13,8 +13,7 @@ sap.ui.define(
       },
 
       init(...args) {
-        // UIComponent.prototype.init.apply(this, args);
-        super.init(args);
+        UIComponent.prototype.init.apply(this, args);
         this.getRouter().initialize();
         this.setModel(new JSONModel(Device), 'device');
       },
