@@ -12,6 +12,7 @@
   "devDependencies": {
     "@prettier/plugin-xml": "^2.2.0",
     "@sap/ux-ui5-tooling": "1",
+    "@sapui5/ts-types": "^1.96.21",
     "@ui5/cli": "^3.0.0",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.2",
@@ -26,6 +27,7 @@
     "deploy": "npm run build && fiori deploy --config ui5-deploy.yaml && rimraf archive.zip",
     "start-variants-management": "fiori run --open \"preview.html?sap-ui-xx-viewCache=false&fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
     "undeploy": "fiori undeploy --config ui5-deploy.yaml",
+    "tsc": "tsc",
     "format": "prettier -w ."
   },
   "sapuxLayer": "CUSTOMER_BASE",

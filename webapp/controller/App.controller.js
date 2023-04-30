@@ -1,7 +1,12 @@
-sap.ui.define(['sap/ui/core/mvc/Controller'], function (BaseController) {
-  'use strict';
+sap.ui.define(
+  ['sap/ui/core/mvc/Controller'],
+  /**
+   * @param {typeof sap.ui.core.mvc.Controller} Controller
+   */
+  (Controller) => {
+    class AppController extends Controller {
+    }
 
-  return BaseController.extend('restaurant00045.controller.App', {
-    onInit() {},
-  });
-});
+    return AppController;
+  },
+);

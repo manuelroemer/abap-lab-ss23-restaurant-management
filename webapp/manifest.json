@@ -60,11 +60,7 @@
       }
     },
     "resources": {
-      "css": [
-        {
-          "uri": "css/style.css"
-        }
-      ]
+      "css": []
     },
     "routing": {
       "config": {
@@ -80,7 +76,9 @@
         {
           "name": "RouteMain",
           "pattern": ":?query:",
-          "target": ["TargetMain"]
+          "target": [
+            "TargetMain"
+          ]
         }
       ],
       "targets": {

@@ -1,31 +1,22 @@
-/**
- * eslint-disable @sap/ui5-jsdocs/no-jsdoc
- */
-
 sap.ui.define(
-  ['sap/ui/core/UIComponent', 'sap/ui/Device', 'restaurant00045/model/models'],
-  function (UIComponent, Device, models) {
-    'use strict';
-
+  ['sap/ui/core/UIComponent', 'sap/ui/Device', 'sap/ui/model/json/JSONModel'],
+  /**
+   *
+   * @param {typeof sap.ui.core.UIComponent} UIComponent
+   * @param {typeof sap.ui.Device} Device
+   * @param {typeof sap.ui.model.json.JSONModel} JSONModel
+   */
+  (UIComponent, Device, JSONModel) => {
     return UIComponent.extend('restaurant00045.Component', {
       metadata: {
         manifest: 'json',
       },
 
-      /**
-       * The component is initialized by UI5 automatically during the startup of the app and calls the init method once.
-       * @public
-       * @override
-       */
-      init: function () {
-        // call the base component's init function
-        UIComponent.prototype.init.apply(this, arguments);
-
-        // enable routing
+      init(...args) {
+        // UIComponent.prototype.init.apply(this, args);
+        super.init(args);
         this.getRouter().initialize();
-
-        // set the device model
-        this.setModel(models.createDeviceModel(), 'device');
+        this.setModel(new JSONModel(Device), 'device');
       },
     });
   },

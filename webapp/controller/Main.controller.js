@@ -3,11 +3,9 @@ sap.ui.define(
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-  function (Controller) {
-    'use strict';
+  (Controller) => {
+    class MainController extends Controller {}
 
-    return Controller.extend('restaurant00045.controller.Main', {
-      onInit: function () {},
-    });
+    return MainController;
   },
 );
