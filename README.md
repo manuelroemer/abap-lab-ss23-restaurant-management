@@ -1,36 +1,4 @@
-## Application Details
+# ABAP Lab - Restaurant Management UI
 
-|                                                                                                  |
-| ------------------------------------------------------------------------------------------------ |
-| **Generation Date and Time**<br>Sun Apr 30 2023 12:30:57 GMT+0200 (Central European Summer Time) |
-| **App Generator**<br>@sap/generator-fiori-freestyle                                              |
-| **App Generator Version**<br>1.9.4                                                               |
-| **Generation Platform**<br>Visual Studio Code                                                    |
-| **Template Used**<br>simple                                                                      |
-| **Service Type**<br>None                                                                         |
-
-|**Service URL**<br>N/A
-|**Module Name**<br>restaurant00045|
-|**Application Title**<br>Restaurant Management|
-|**Namespace**<br>|
-|**UI5 Theme**<br>sap_horizon|
-|**UI5 Version**<br>1.113.0|
-|**Enable Code Assist Libraries**<br>False|
-|**Enable TypeScript**<br>False|
-|**Add Eslint configuration**<br>False|
-
-## restaurant00045
-
-The restaurant management application.
-
-### Starting the generated app
-
-- This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite. In order to launch the generated app, simply run the following from the generated app root folder:
-
-```
-    npm start
-```
-
-#### Pre-requisites:
-
-1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version. (See https://nodejs.org)
+This repository contains the code of the frontend part of the restaurant management application.
+The application is written with the SAPUI5 framework as part of the [ABAP Lab course at TUM](https://campus.tum.de/tumonline/pl/ui/$ctx/wbLv.wbShowLVDetail?pStpSpNr=950602745&pSpracheNr=2).
