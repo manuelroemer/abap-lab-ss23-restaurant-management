@@ -12,7 +12,9 @@
 
       <IconTabBar expanded="{device>/isNoPhone}" class="sapUiSmallMarginBottom sapUiResponsiveContentPadding">
         <items>
-          <IconTabFilter key="tables" text="{i18n>adminTabsTables}" />
+          <IconTabFilter key="tables" text="{i18n>adminTabsTables}">
+            <mvc:XMLView viewName="restaurant00045.view.Tables"/>
+          </IconTabFilter>
           <IconTabFilter key="reservations" text="{i18n>adminTabsReservations}" />
         </items>
       </IconTabBar>

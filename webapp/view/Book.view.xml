@@ -1,5 +1,5 @@
 <mvc:View
-  controllerName="restaurant00045.controller.Admin"
+  controllerName="restaurant00045.controller.Book"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
