@@ -1,7 +1,8 @@
 <mvc:View
-  controllerName="restaurant00045.controller.Tables"
+  controllerName="restaurant00045.controller.Admin"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
-  xmlns="sap.m"
-/>
+  xmlns="sap.m">
+  <Text text="Admin" />
+</mvc:View>

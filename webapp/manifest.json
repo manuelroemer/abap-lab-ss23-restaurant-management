@@ -88,18 +88,36 @@
       },
       "routes": [
         {
-          "name": "RouteMain",
-          "pattern": ":?query:",
-          "target": ["TargetMain"]
+          "pattern": "",
+          "name": "Main",
+          "target": "Main"
+        },
+        {
+          "pattern": "book",
+          "name": "Book",
+          "target": "Book"
+        },
+        {
+          "pattern": "admin",
+          "name": "Admin",
+          "target": "Admin"
         }
       ],
       "targets": {
-        "TargetMain": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
+        "Main": {
           "viewId": "Main",
-          "viewName": "Main"
+          "viewName": "Main",
+          "viewLevel": 1
+        },
+        "Book": {
+          "viewId": "Book",
+          "viewName": "Book",
+          "viewLevel": 1
+        },
+        "Admin": {
+          "viewId": "Admin",
+          "viewName": "Admin",
+          "viewLevel": 1
         }
       }
     },

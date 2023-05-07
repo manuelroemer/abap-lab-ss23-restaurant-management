@@ -4,8 +4,8 @@ sap.ui.define(
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
   (Controller) => {
-    class TablesController extends Controller {}
+    class AdminController extends Controller {}
 
-    return TablesController;
+    return AdminController;
   },
 );
