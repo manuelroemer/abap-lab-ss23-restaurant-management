@@ -1,11 +1,36 @@
 <mvc:View
+  xmlns:cards="sap.f.cards"
   controllerName="restaurant00045.controller.Main"
   xmlns:mvc="sap.ui.core.mvc"
+  xmlns:f="sap.f"
+  xmlns:grid="sap.ui.layout.cssgrid"
   displayBlock="true"
   xmlns="sap.m">
-  <Page id="page" title="{i18n>title}">
-    <content>
-      <Text text="{i18n>greeting}" />
-    </content>
-  </Page>
+      <ObjectHeader title="{i18n>mainTitle}" icon="sap-icon://meal" backgroundDesign="Solid">
+        <ObjectAttribute text="{i18n>mainDescription}" />
+      </ObjectHeader>
+
+      <FlexBox class="sapUiLargeMarginTop" justifyContent="Center" alignItems="Center">
+        <grid:CSSGrid gridGap="1rem" gridAutoFlow="Column">
+          <f:Card>
+            <f:header>
+              <cards:Header
+                title="{i18n>mainBookCardTitle}"
+                subtitle="{i18n>mainBookCardSubtitle}"
+                iconSrc="sap-icon://appointment"
+              />
+            </f:header>
+          </f:Card>
+
+          <f:Card>
+            <f:header>
+              <cards:Header
+                title="{i18n>mainAdminCardTitle}"
+                subtitle="{i18n>mainAdminCardSubtitle}"
+                iconSrc="sap-icon://wrench"
+              />
+            </f:header>
+          </f:Card>
+        </grid:CSSGrid>
+      </FlexBox>
 </mvc:View>

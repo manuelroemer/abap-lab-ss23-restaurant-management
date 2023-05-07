@@ -1,14 +1,8 @@
 {
   "compilerOptions": {
-    "typeRoots": [
-      "node_modules/@sapui5/ts-types",
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@sapui5/ts-types", "node_modules/@types"],
     "target": "ES2017",
-    "lib": [
-      "ES2017",
-      "DOM"
-    ],
+    "lib": ["ES2017", "DOM"],
     "noEmit": true,
     "skipLibCheck": true,
     "module": "none",
@@ -18,12 +12,8 @@
     "strict": true,
     "noImplicitAny": false
   },
-  "include": [
-    "webapp/**/*.js"
-  ],
+  "include": ["webapp/**/*.js"],
   "paths": {
-    "sap/ui/eventregistration/form/*": [
-      "./webapp/*"
-    ]
+    "sap/ui/eventregistration/form/*": ["./webapp/*"]
   }
 }

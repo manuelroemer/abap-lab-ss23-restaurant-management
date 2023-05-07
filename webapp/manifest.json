@@ -14,6 +14,15 @@
       "id": "@sap/generator-fiori:basic",
       "version": "1.9.4",
       "toolsId": "2bb186e4-527b-47a9-977a-9e391795e4d1"
+    },
+    "dataSources": {
+      "svc": {
+        "uri": "http://s72lp1.ucc.in.tum.de:8100/sap/opu/odata/sap/Z_00_045_SS23_RESTAURANT_SRV/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
     }
   },
   "sap.ui": {
@@ -57,6 +66,11 @@
         "settings": {
           "bundleName": "restaurant00045.i18n.i18n"
         }
+      },
+      "svc": {
+        "dataSource": "svc",
+        "preload": true,
+        "settings": {}
       }
     },
     "resources": {
@@ -76,9 +90,7 @@
         {
           "name": "RouteMain",
           "pattern": ":?query:",
-          "target": [
-            "TargetMain"
-          ]
+          "target": ["TargetMain"]
         }
       ],
       "targets": {
