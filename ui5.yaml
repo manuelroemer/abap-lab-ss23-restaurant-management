@@ -15,6 +15,9 @@ server:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
+        backend:
+          - path: /sap
+            url: https://s72lp1.ucc.in.tum.de:8100
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

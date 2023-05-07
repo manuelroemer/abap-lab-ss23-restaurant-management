@@ -4,5 +4,7 @@
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
   xmlns="sap.m">
-  <Text text="Tables view" />
+  <List headerText="Tables" items="{svc>/TableSet}">
+    <StandardListItem title="{svc>Description}" description="{svc>Description}" />
+  </List>
 </mvc:View>

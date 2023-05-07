@@ -12,7 +12,7 @@
     "strict": true,
     "noImplicitAny": false
   },
-  "include": ["webapp/**/*.js", "webapp/**/*.ts"],
+  "include": ["webapp/**/*.js", "types/*.ts"],
   "paths": {
     "sap/ui/eventregistration/form/*": ["./webapp/*"]
   }

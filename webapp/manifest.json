@@ -17,7 +17,7 @@
     },
     "dataSources": {
       "svc": {
-        "uri": "http://s72lp1.ucc.in.tum.de:8100/sap/opu/odata/sap/Z_00_045_SS23_RESTAURANT_SRV/",
+        "uri": "/sap/opu/odata/sap/Z_00_045_SS23_RESTAURANT_SRV/",
         "type": "OData",
         "settings": {
           "odataVersion": "2.0"
@@ -70,7 +70,9 @@
       "svc": {
         "dataSource": "svc",
         "preload": true,
-        "settings": {}
+        "settings": {
+          "useBatch": false
+        }
       }
     },
     "resources": {
