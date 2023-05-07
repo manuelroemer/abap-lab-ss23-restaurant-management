@@ -4,9 +4,18 @@
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
   xmlns="sap.m">
-  <Page showNavButton="true" navButtonPress=".goBack">
+  <Page title="{i18n>adminTitle}" showNavButton="true" navButtonPress=".goBack">
     <content>
-      <Text text="Admin" />
+      <ObjectHeader title="{i18n>adminHeaderTitle}" icon="sap-icon://wrench" backgroundDesign="Solid" condensed="true">
+        <ObjectAttribute text="{i18n>adminHeaderDescription}" />
+      </ObjectHeader>
+
+      <IconTabBar expanded="{device>/isNoPhone}" class="sapUiSmallMarginBottom sapUiResponsiveContentPadding">
+        <items>
+          <IconTabFilter key="tables" text="{i18n>adminTabsTables}" />
+          <IconTabFilter key="reservations" text="{i18n>adminTabsReservations}" />
+        </items>
+      </IconTabBar>
     </content>
   </Page>
 </mvc:View>

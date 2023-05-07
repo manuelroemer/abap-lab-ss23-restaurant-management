@@ -4,7 +4,7 @@
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
   xmlns="sap.m">
-  <Page showNavButton="true" navButtonPress=".goBack">
+  <Page title="{i18n>bookTitle}" showNavButton="true" navButtonPress=".goBack">
     <content>
       <Text text="Book" />
     </content>
