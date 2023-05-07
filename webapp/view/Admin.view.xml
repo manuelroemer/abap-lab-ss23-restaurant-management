@@ -4,5 +4,9 @@
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
   xmlns="sap.m">
-  <Text text="Admin" />
+  <Page showNavButton="true" navButtonPress=".goBack">
+    <content>
+      <Text text="Admin" />
+    </content>
+  </Page>
 </mvc:View>

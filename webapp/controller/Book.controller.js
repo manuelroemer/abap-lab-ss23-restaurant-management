@@ -1,10 +1,10 @@
 sap.ui.define(
-  ['sap/ui/core/mvc/Controller'],
+  ['restaurant00045/controller/BaseController'],
   /**
-   * @param {typeof sap.ui.core.mvc.Controller} Controller
+   * @param {typeof restaurant00045.controller.BaseController} BaseController
    */
-  (Controller) => {
-    class BookController extends Controller {}
+  (BaseController) => {
+    class BookController extends BaseController {}
 
     return BookController;
   },

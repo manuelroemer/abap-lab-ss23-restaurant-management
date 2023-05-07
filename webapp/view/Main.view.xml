@@ -6,8 +6,10 @@
   xmlns:grid="sap.ui.layout.cssgrid"
   displayBlock="true"
   xmlns="sap.m">
-      <ObjectHeader title="{i18n>mainTitle}" icon="sap-icon://meal" backgroundDesign="Solid">
-        <ObjectAttribute text="{i18n>mainDescription}" />
+  <Page title="{i18n>mainTitle}">
+    <content>
+      <ObjectHeader title="{i18n>mainHeaderTitle}" icon="sap-icon://meal" backgroundDesign="Solid">
+        <ObjectAttribute text="{i18n>mainHeaderDescription}" />
       </ObjectHeader>
 
       <FlexBox class="sapUiLargeMarginTop" justifyContent="Center" alignItems="Center">
@@ -15,6 +17,7 @@
           <f:Card>
             <f:header>
               <cards:Header
+                press="onBookPress"
                 title="{i18n>mainBookCardTitle}"
                 subtitle="{i18n>mainBookCardSubtitle}"
                 iconSrc="sap-icon://appointment"
@@ -25,6 +28,7 @@
           <f:Card>
             <f:header>
               <cards:Header
+                press="onAdminPress"
                 title="{i18n>mainAdminCardTitle}"
                 subtitle="{i18n>mainAdminCardSubtitle}"
                 iconSrc="sap-icon://wrench"
@@ -33,4 +37,6 @@
           </f:Card>
         </grid:CSSGrid>
       </FlexBox>
+    </content>
+  </Page>
 </mvc:View>
