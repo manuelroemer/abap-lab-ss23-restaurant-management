@@ -1,23 +1,34 @@
 <mvc:View
+  xmlns:uxap="sap.uxap"
+  xmlns:layout="sap.ui.layout"
   controllerName="restaurant00045.controller.Admin"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
   xmlns="sap.m">
-  <Page title="{i18n>adminTitle}" showNavButton="true" navButtonPress=".goBack">
+  <Page title="{i18n>adminTitle}" showNavButton="true" navButtonPress=".goBack" enableScrolling="false">
     <content>
-      <ObjectHeader title="{i18n>adminHeaderTitle}" icon="sap-icon://wrench" backgroundDesign="Solid" condensed="true">
-        <ObjectAttribute text="{i18n>adminHeaderDescription}" />
-      </ObjectHeader>
-
-      <IconTabBar expanded="{device>/isNoPhone}" class="sapUiSmallMarginBottom sapUiResponsiveContentPadding">
-        <items>
-          <IconTabFilter key="tables" text="{i18n>adminTabsTables}">
-            <mvc:XMLView viewName="restaurant00045.view.Tables"/>
-          </IconTabFilter>
-          <IconTabFilter key="reservations" text="{i18n>adminTabsReservations}" />
-        </items>
-      </IconTabBar>
+      <layout:FixFlex class="fixFlexVertical">
+        <layout:fixContent>
+          <ObjectHeader
+            title="{i18n>adminHeaderTitle}"
+            icon="sap-icon://wrench"
+            backgroundDesign="Solid"
+            condensed="true">
+            <ObjectAttribute text="{i18n>adminHeaderDescription}" />
+          </ObjectHeader>
+        </layout:fixContent>
+        <layout:flexContent>
+          <IconTabBar expanded="{device>/isNoPhone}" applyContentPadding="false" stretchContentHeight="true">
+            <items>
+              <IconTabFilter key="tables" text="{i18n>adminTabsTables}">
+                <mvc:XMLView class="h-100" viewName="restaurant00045.view.Tables" />
+              </IconTabFilter>
+              <IconTabFilter key="reservations" text="{i18n>adminTabsReservations}" />
+            </items>
+          </IconTabBar>
+        </layout:flexContent>
+      </layout:FixFlex>
     </content>
   </Page>
 </mvc:View>

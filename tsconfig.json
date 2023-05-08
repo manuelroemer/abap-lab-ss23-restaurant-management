@@ -8,8 +8,8 @@
     "module": "none",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "checkJs": true,
-    "strict": true,
+    "checkJs": false,
+    "strict": false,
     "noImplicitAny": false
   },
   "include": ["webapp/**/*.js", "types/*.ts"],

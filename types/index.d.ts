@@ -3,7 +3,7 @@
 
 declare namespace restaurant00045 {
   namespace controller {
-    class BaseController {
+    class BaseController extends sap.ui.core.mvc.Controller {
       get router(): sap.ui.core.routing.Router;
       goBack(): void;
     }

@@ -4,7 +4,28 @@
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true"
   xmlns="sap.m">
-  <List headerText="Tables" items="{svc>/TableSet}">
-    <StandardListItem title="{svc>Description}" description="{svc>Description}" />
-  </List>
+  <SplitContainer id="splitContainer" initialMaster="tables" initialDetail="placeholder">
+    <masterPages>
+      <Page id="tables" title="{i18n>tablesTitle}" titleAlignment="Center">
+        <headerContent>
+          <Button text="New" icon="sap-icon://add" press=".onAddPress" />
+        </headerContent>
+        <List items="{svc>/TableSet}">
+          <ObjectListItem title="{svc>Description}" number="{svc>Seats}" numberUnit="{i18n>tablesTableSeats}">
+            <ObjectAttribute text="{i18n>tablesTableLocation} {svc>Location}" />
+            <ObjectAttribute text="{i18n>tablesTableDecoration} {svc>Decoration}" />
+          </ObjectListItem>
+        </List>
+      </Page>
+    </masterPages>
+    <detailPages>
+      <Page id="placeholder">
+        <VBox alignItems="Center" class="sapUiLargeMarginTop">
+          <Text text="{i18n>tablesPlaceholderText}" />
+        </VBox>
+      </Page>
+      <Page id="add" title="{i18n>tablesAddTitle}" titleAlignment="Center">
+      </Page>
+    </detailPages>
+  </SplitContainer>
 </mvc:View>
