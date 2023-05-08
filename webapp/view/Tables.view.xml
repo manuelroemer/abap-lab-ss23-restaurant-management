@@ -2,16 +2,22 @@
   controllerName="restaurant00045.controller.Tables"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:mvc="sap.ui.core.mvc"
+  xmlns:f="sap.ui.layout.form"
   displayBlock="true"
   xmlns="sap.m">
   <SplitContainer id="splitContainer" initialMaster="tables" initialDetail="placeholder">
     <masterPages>
       <Page id="tables" title="{i18n>tablesTitle}" titleAlignment="Center">
         <headerContent>
-          <Button text="New" icon="sap-icon://add" press=".onAddPress" />
+          <Button text="{i18n>tablesAddButton}" icon="sap-icon://add" press=".onAddPress" />
         </headerContent>
         <List items="{svc>/TableSet}">
-          <ObjectListItem title="{svc>Description}" number="{svc>Seats}" numberUnit="{i18n>tablesTableSeats}">
+          <ObjectListItem
+            title="{svc>Description}"
+            number="{svc>Seats}"
+            numberUnit="{i18n>tablesTableSeats}"
+            type="Active"
+            press=".onTablePress">
             <ObjectAttribute text="{i18n>tablesTableLocation} {svc>Location}" />
             <ObjectAttribute text="{i18n>tablesTableDecoration} {svc>Decoration}" />
           </ObjectListItem>
@@ -25,6 +31,87 @@
         </VBox>
       </Page>
       <Page id="add" title="{i18n>tablesAddTitle}" titleAlignment="Center">
+        <f:SimpleForm
+          editable="false"
+          layout="ResponsiveGridLayout"
+          columnsXL="1"
+          columnsL="1"
+          columnsM="1"
+          emptySpanXL="4"
+          emptySpanL="4"
+          emptySpanM="0"
+          emptySpanS="0">
+          <f:content>
+            <Label text="Seats" />
+            <StepInput min="1" max="100" required="true" value="{/add/Seats}" />
+            <Label text="Description" />
+            <Input
+              placeholder="A text that describes the table (e.g., 'Table 12')."
+              maxLength="255"
+              required="true"
+              value="{/add/Description}"
+            />
+            <Label text="Location" />
+            <Input
+              placeholder="A text that describes the location of the table (e.g., 'Near the window')."
+              maxLength="255"
+              required="true"
+              value="{/add/Location}"
+            />
+            <Label text="Decoration" />
+            <Input
+              placeholder="A text that describes the decoration of the table (e.g., 'With a flower')."
+              maxLength="255"
+              required="true"
+              value="{/add/Decoration}"
+            />
+            <Label />
+            <Button text="Submit" press=".onAddSubmit" enabled="{/canSubmitAdd}" />
+          </f:content>
+        </f:SimpleForm>
+      </Page>
+      <Page id="edit" title="{i18n>tablesEditTitle}" titleAlignment="Center">
+        <headerContent>
+          <Button text="{i18n>tablesDeleteButton}" icon="sap-icon://delete" press=".onDeletePress" />
+        </headerContent>
+        <f:SimpleForm
+          editable="false"
+          layout="ResponsiveGridLayout"
+          columnsXL="1"
+          columnsL="1"
+          columnsM="1"
+          emptySpanXL="4"
+          emptySpanL="4"
+          emptySpanM="0"
+          emptySpanS="0">
+          <f:content>
+            <Label text="Seats" />
+            <StepInput min="1" max="100" required="true" value="{/edit/Seats}" />
+            <Label text="Description" />
+            <Input
+              placeholder="A text that describes the table (e.g., 'Table 12')."
+              maxLength="255"
+              required="true"
+              value="{/edit/Description}"
+            />
+            <Label text="Location" />
+            <Input
+              placeholder="A text that describes the location of the table (e.g., 'Near the window')."
+              maxLength="255"
+              required="true"
+              value="{/edit/Location}"
+            />
+            <Label text="Decoration" />
+            <Input
+              placeholder="A text that describes the decoration of the table (e.g., 'With a flower')."
+              maxLength="255"
+              required="true"
+              value="{/edit/Decoration}"
+            />
+            <Label />
+            <Button text="Submit" press=".onEditSubmit" enabled="{/canSubmitEdit}" />
+          </f:content>
+        </f:SimpleForm>
       </Page>
     </detailPages>
   </SplitContainer>
