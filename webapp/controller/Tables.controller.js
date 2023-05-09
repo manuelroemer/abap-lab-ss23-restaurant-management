@@ -16,27 +16,44 @@ sap.ui.define(
 
       return create(({ set }) => ({
         data: {
-          add: defaultTable,
-          edit: defaultTable,
+          tableToCreate: defaultTable,
+          tableToUpdate: defaultTable,
         },
         computed: {
-          canSubmitAdd({ add }) {
-            return !!add.Seats && !!add.Description && !!add.Location && !!add.Decoration;
+          canCreate({ tableToCreate }) {
+            return (
+              !!tableToCreate.Seats &&
+              !!tableToCreate.Description &&
+              !!tableToCreate.Location &&
+              !!tableToCreate.Decoration
+            );
           },
-          canSubmitEdit({ edit }) {
-            return !!edit.Seats && !!edit.Description && !!edit.Location && !!edit.Decoration;
+          canUpdate({ tableToUpdate }) {
+            return (
+              !!tableToUpdate.Seats &&
+              !!tableToUpdate.Description &&
+              !!tableToUpdate.Location &&
+              !!tableToUpdate.Decoration
+            );
           },
         },
         methods: {
-          setAdd(value = defaultTable) {
-            set({ add: value });
+          setTableToCreate(value) {
+            set({ tableToCreate: value });
           },
-          setEdit(value = defaultTable) {
-            set({ edit: value });
+          clearTableToCreate() {
+            this.setTableToCreate(defaultTable);
+          },
+          setTableToUpdate(value) {
+            set({ tableToUpdate: value });
+          },
+          clearTableToUpdate() {
+            this.setTableToUpdate(defaultTable);
           },
         },
       }));
     }
+
     class TablesController extends BaseController {
       onInit() {
         this.state = createControllerState();
@@ -47,34 +64,33 @@ sap.ui.define(
         this.currentTablePath = bindingPathFromEvent(e, 'svc');
         this.svc.read(this.currentTablePath, {
           success: (data) => {
-            this.state.setEdit(data);
+            this.state.setTableToUpdate(data);
             this.goToDetails('edit');
           },
         });
       }
 
       onAddPress() {
-        this.state.setAdd();
         this.goToDetails('add');
       }
 
       onAddSubmit() {
-        const entity = this.state.get().add;
-        this.svc.create('/TableSet', entity, {
+        const { tableToCreate } = this.state.get();
+        this.svc.create('/TableSet', tableToCreate, {
           success: () => {
             this.goToDetails('placeholder');
-            this.state.setAdd();
+            this.state.clearTableToCreate();
           },
           error: () => console.error('Creating table failed: ', e),
         });
       }
 
       onEditSubmit() {
-        const entity = this.state.get().edit;
-        this.svc.update(this.currentTablePath, entity, {
+        const { tableToUpdate } = this.state.get();
+        this.svc.update(this.currentTablePath, tableToUpdate, {
           success: () => {
             this.goToDetails('placeholder');
-            this.state.setEdit();
+            this.state.clearTableToUpdate();
           },
           error: () => console.error('Updating table failed: ', e),
         });
