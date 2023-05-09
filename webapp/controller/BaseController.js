@@ -1,12 +1,11 @@
 sap.ui.define(
-  ['sap/ui/core/mvc/Controller', 'sap/ui/core/UIComponent', 'sap/ui/core/routing/History', 'restaurant00045/utils/State'],
+  ['sap/ui/core/mvc/Controller', 'sap/ui/core/UIComponent', 'sap/ui/core/routing/History'],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    * @param {typeof sap.ui.core.UIComponent} UIComponent
    * @param {typeof sap.ui.core.routing.History} History
-   * @param {typeof restaurant00045.utils.State} State
    */
-  (Controller, UIComponent, History, State) => {
+  (Controller, UIComponent, History) => {
     class BaseController extends Controller {
       get router() {
         return UIComponent.getRouterFor(this);
@@ -14,11 +13,6 @@ sap.ui.define(
 
       get svc() {
         return this.getView().getModel('svc');
-      }
-
-      setupState(stateInit) {
-        this.state = new State(stateInit);
-        this.getView().setModel(this.state.model);
       }
 
       goBack() {
