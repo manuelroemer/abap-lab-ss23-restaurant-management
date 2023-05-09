@@ -11,8 +11,14 @@
         <ObjectAttribute text="{i18n>bookHeaderDescription}" />
       </ObjectHeader>
 
-      <FlexBox direction="Column" justifyContent="Center" alignItems="Center" class="sapUiLargeMarginTop" busy="{/isSubmitting}">
-        <VBox alignItems="Stretch" visible="{= !${/isSuccess}}">
+      <FlexBox
+        direction="Column"
+        justifyContent="Center"
+        alignItems="Center"
+        class="sapUiLargeMarginTop"
+        busyIndicatorDelay="0"
+        busy="{/formMutation/isPending}">
+        <VBox alignItems="Stretch" visible="{= !${/formMutation/isSuccess}}">
           <Label text="{i18n>bookFormEmailLabel}" required="true" />
           <Input
             placeholder="{i18n>bookFormEmailPlaceholder}"
@@ -41,12 +47,12 @@
           <Button class="sapUiResponsiveMarginTop" text="Submit" enabled="{/canSubmit}" press=".onSubmit" />
         </VBox>
 
-        <VBox visible="{/isSuccess}">
+        <VBox visible="{/formMutation/isSuccess}">
           <Title text="Your reservation has been confirmed!" />
           <Text text="Thank you! Your reservation has been confirmed." />
         </VBox>
 
-        <VBox visible="{/isError}">
+        <VBox visible="{/formMutation/isError}">
           <Text text="Sorry, there was an error. Please try again." />
         </VBox>
       </FlexBox>

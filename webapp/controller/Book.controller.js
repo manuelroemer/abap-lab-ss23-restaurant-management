@@ -1,79 +1,50 @@
 sap.ui.define(
-  ['restaurant00045/controller/BaseController', 'restaurant00045/utils/State'],
+  [
+    'restaurant00045/controller/BaseController',
+    'restaurant00045/utils/State',
+    'restaurant00045/utils/Time',
+    'restaurant00045/utils/Restaurant',
+  ],
   /**
    * @param {typeof restaurant00045.controller.BaseController} BaseController
-   * @param {typeof restaurant00045.utils.State} State
    */
-  (BaseController, { create }) => {
+  (
+    BaseController,
+    { create, createODataCreateMutation },
+    { getTomorrow, addHours },
+    { getReservationTimeSelectOptions },
+  ) => {
     function createControllerState() {
-      /**
-       * Generates the options for the time <Select /> control.
-       * -> A list of 30 minute intervals from 8:00 to 21:30 (i.e., the opening hours of the restaurant).
-       */
-      const getTimeOptions = () => {
-        const opts = [];
-
-        for (let hour = 8; hour <= 21; hour++) {
-          for (let minute = 0; minute < 60; minute += 30) {
-            opts.push({
-              hour,
-              minute,
-              text: `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`,
-            });
-          }
-        }
-
-        return opts;
-      };
-
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      return create(({ get, set }) => ({
+      return create(createODataCreateMutation({ key: 'formMutation' }), ({ get }) => ({
         data: {
-          minDate: tomorrow,
-          timeOptions: [{ text: '' }, ...getTimeOptions()],
+          minDate: getTomorrow(),
+          timeOptions: [{ text: '' }, ...getReservationTimeSelectOptions()],
           form: {
             Email: '',
-            Guests: 1,
             Date: undefined,
             Time: undefined,
+            Guests: 1,
             Notes: '',
           },
-          isSubmitting: false,
-          isSuccess: false,
-          isError: false,
         },
         computed: {
-          canSubmit({ isSubmitting, form }) {
+          canSubmit({ formMutation, form }) {
             const isFormValid = !!form.Email && !!form.Date && !!form.Time && !!form.Guests > 0;
-            return !isSubmitting && isFormValid;
+            return !formMutation.isPending && isFormValid;
           },
         },
         methods: {
-          submit(svc) {
+          async submit(odataModel) {
             const { form, timeOptions } = get();
             const time = timeOptions.find((x) => x.text === form.Time);
-            const startsAt = new Date(
-              form.Date.getTime() + time.hour * 60 * 60 * 1000 + time.minute * 60 * 1000,
-            );
-            const endsAt = new Date(startsAt.getTime() + 2 * 60 * 60 * 1000);
-            const entity = {
+            const startsAt = new Date(form.Date.getTime() + time.hour * 60 * 60 * 1000 + time.minute * 60 * 1000);
+            const endsAt = addHours(startsAt, 2);
+            this.formMutation.mutate(odataModel, '/ReservationSet', {
               Email: form.Email,
               Guests: form.Guests,
               StartsAt: startsAt,
               EndsAt: endsAt,
               Notes: form.Notes,
-            };
-
-            set({ isSubmitting: true });
-            svc.create('/ReservationSet', entity, {
-              success: () => {
-                set({ isSubmitting: false, isSuccess: true, isError: false });
-              },
-              error: () => {
-                set({ isSubmitting: false, isSuccess: false, isError: true });
-              },
             });
           },
         },
