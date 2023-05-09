@@ -2,11 +2,54 @@
   controllerName="restaurant00045.controller.Book"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
   displayBlock="true"
   xmlns="sap.m">
   <Page title="{i18n>bookTitle}" showNavButton="true" navButtonPress=".goBack">
     <content>
-      <Text text="Book" />
+      <ObjectHeader title="{i18n>bookHeaderTitle}" icon="sap-icon://appointment" backgroundDesign="Solid">
+        <ObjectAttribute text="{i18n>bookHeaderDescription}" />
+      </ObjectHeader>
+
+      <FlexBox direction="Column" justifyContent="Center" alignItems="Center" class="sapUiLargeMarginTop" busy="{/isSubmitting}">
+        <VBox alignItems="Stretch" visible="{= !${/isSuccess}}">
+          <Label text="{i18n>bookFormEmailLabel}" required="true" />
+          <Input
+            placeholder="{i18n>bookFormEmailPlaceholder}"
+            type="Email"
+            required="true"
+            maxLength="255"
+            value="{/form/Email}"
+          />
+          <Label text="{i18n>bookFormGuestsLabel}" required="true" />
+          <StepInput min="1" max="25" value="{/form/Guests}" />
+          <Label text="{i18n>bookFormDateLabel}" required="true" />
+          <DatePicker minDate="{/minDate}" required="true" dateValue="{/form/Date}" />
+          <Select
+            items="{
+                path: '/timeOptions',
+                sorter: {
+                  path: 'text'
+                }
+              }"
+            selectedKey="{/form/Time}">
+            <core:Item key="{text}" text="{text}" />
+          </Select>
+          <Label text="{i18n>bookFormNotesLabel}" />
+          <TextArea width="100%" rows="3" maxLength="255" value="{/form/Notes}" />
+          <FormattedText htmlText="{i18n>bookFormReservationInfo}" />
+          <Button class="sapUiResponsiveMarginTop" text="Submit" enabled="{/canSubmit}" press=".onSubmit" />
+        </VBox>
+
+        <VBox visible="{/isSuccess}">
+          <Title text="Your reservation has been confirmed!" />
+          <Text text="Thank you! Your reservation has been confirmed." />
+        </VBox>
+
+        <VBox visible="{/isError}">
+          <Text text="Sorry, there was an error. Please try again." />
+        </VBox>
+      </FlexBox>
     </content>
   </Page>
 </mvc:View>
