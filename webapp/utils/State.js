@@ -75,6 +75,9 @@ sap.ui.define(
       return state;
     }
 
+    /**
+     * Sets the `value` as an attribute on the `object` at the given dot-separated path (e.g., `foo.bar.baz`).
+     */
     function setObjectPath(object, path, value) {
       const parts = path.split('.');
       let current = object;
