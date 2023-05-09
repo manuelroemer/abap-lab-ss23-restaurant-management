@@ -93,6 +93,51 @@ sap.ui.define(
       }
     }
 
+    /**
+     * Creates a state initializer which introduces state for an asynchronous data mutation.
+     * This is modeled after popular libraries like "swr" or "react-query".
+     * Even though this is React specific, the following links may provide some context on what mutations are:
+     * - https://tanstack.com/query/latest/docs/react/guides/mutations
+     * - https://swr.vercel.app/docs/mutation#useswrmutation
+     *
+     * This function expects one object parameter which provides the following arguments:
+     * - `key`: The key/name under which the mutation state properties will be added to the state object.
+     * - `mutate`: The function that runs the actual asynchronous data mutation.
+     * - `onSuccess`: An optional callback that is invoked when the mutation succeeds.
+     * - `onError`: An optional callback that is invoked when the mutation fails.
+     *
+     * The state initializer will introduce the following state, where `key` is a custom key
+     * provided as an argument:
+     * - `key`:
+     *   - `data`: The data returned by the mutation function when it succeeds.
+     *   - `error`: An error thrown when the mutation function fails.
+     *   - `status`: The status of the mutation. Can be one of "idle", "pending", "success" or "error".
+     *   - `isIdle`: true if `status` is "idle".
+     *   - `isPending`: true if `status` is "pending".
+     *   - `isSuccess`: true if `status` is "success".
+     *   - `isError`: true if `status` is "error".
+     *
+     * Additionally, the following methods are introduced on the state object:
+     * - `key`:
+     *   - `mutate`: Asynchronously invokes the mutation.
+     *
+     * ## Example:
+     * ```js
+     * const myState = create(
+     *   createMutation({
+     *     key: 'myMutation',
+     *     mutate: async (someDelayParameter = 1000) => {
+     *       await delay(someDelayParameter);
+     *       return 'some value';
+     *     },
+     *   })
+     * );
+     *
+     * console.log(myState.get().myMutation); // { data: undefined, error: undefined, status: 'idle' }
+     * await myState.mutate(2000);
+     * console.log(myState.get().myMutation); // { data: 'some value', error: undefined, status: 'success' }
+     * ```
+     */
     function createMutation({ key, mutate, onSuccess, onError }) {
       return ({ get, set }) => ({
         data: {
@@ -157,6 +202,9 @@ sap.ui.define(
       });
     }
 
+    /**
+     *
+     */
     function createODataCreateMutation({ key }) {
       return createMutation({
         key,
