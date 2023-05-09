@@ -13,18 +13,6 @@ declare namespace restaurant00045 {
   }
 
   namespace utils {
-    interface StateInit<T = any> {
-      state?: T;
-      computed?: Record<string, (state: T) => any>;
-    }
-
-    class State<T = any> {
-      constructor(init?: StateInit<T>);
-      get(): T;
-      set(state: T | ((state: T) => T)): void;
-    }
-
-
     interface Events {
       bindingPathFromEvent(e: sap.ui.base.Event, modeName: string): string;
     }
