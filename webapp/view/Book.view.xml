@@ -27,8 +27,10 @@
             maxLength="255"
             value="{/form/Email}"
           />
+
           <Label text="{i18n>bookFormGuestsLabel}" required="true" />
           <StepInput min="1" max="25" value="{/form/Guests}" />
+
           <Label text="{i18n>bookFormDateLabel}" required="true" />
           <DatePicker minDate="{/minDate}" required="true" dateValue="{/form/Date}" />
           <Select
@@ -41,8 +43,19 @@
             selectedKey="{/form/Time}">
             <core:Item key="{text}" text="{text}" />
           </Select>
+
+          <Label text="{i18n>bookFormTableLabel}" required="true" />
+          <Select
+            id="tablesSelect"
+            selectedKey="{/form/Table}"
+            width="100%"
+            required="true"
+            enabled="{= !!${/form/Date} &amp;&amp; !!${/form/Time} }"
+          />
+
           <Label text="{i18n>bookFormNotesLabel}" />
           <TextArea width="100%" rows="3" maxLength="255" value="{/form/Notes}" />
+
           <FormattedText htmlText="{i18n>bookFormReservationInfo}" />
           <Button class="sapUiResponsiveMarginTop" text="Submit" enabled="{/canSubmit}" press=".onSubmit" />
         </VBox>

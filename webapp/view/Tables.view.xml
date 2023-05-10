@@ -11,7 +11,8 @@
         <headerContent>
           <Button text="{i18n>tablesAddButton}" icon="sap-icon://tableToCreate" press=".onAddPress" />
         </headerContent>
-        <List items="{svc>/TableSet}">
+        <List
+          items="{svc>/TableSet}">
           <ObjectListItem
             title="{svc>Description}"
             number="{svc>Seats}"

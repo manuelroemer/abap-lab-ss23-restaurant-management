@@ -32,7 +32,7 @@ sap.ui.define(
       };
 
       const subscribe = (cb) => {
-        const listener = () => cb(get, set);
+        const listener = () => cb(state);
         model.attachPropertyChange(null, listener);
         return () => model.detachPropertyChange(listener);
       };
@@ -53,7 +53,7 @@ sap.ui.define(
       // We must react to outside changes in the model to update computed values.
       // The model is smart enough to only notify when an actual change occurred, meaning
       // that we won't run into a loop here.
-      subscribe((get, set) => set(get(), true));
+      subscribe(({ get, set }) => set(get(), true));
 
       const state = {
         model,
@@ -66,9 +66,9 @@ sap.ui.define(
 
       // Bind the state's method to the state itself.
       // This allows accessing the state via 'this' in its methods.
-      for (const key in state) {
-        if (typeof state[key] === 'function') {
-          state[key] = state[key].bind(state);
+      for (const key in methods) {
+        if (typeof methods[key] === 'function') {
+          methods[key] = methods[key].bind(state);
         }
       }
 
