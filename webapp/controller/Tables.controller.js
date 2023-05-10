@@ -98,7 +98,10 @@ sap.ui.define(
 
       onDeletePress() {
         this.svc.remove(this.currentTablePath, {
-          success: () => this.goToDetails('placeholder'),
+          success: () => {
+            this.svc.refresh();
+            this.goToDetails('placeholder');
+          },
           error: () => console.error('Deleting table failed: ', e),
         });
       }

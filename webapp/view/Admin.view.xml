@@ -24,7 +24,9 @@
               <IconTabFilter key="tables" text="{i18n>adminTabsTables}">
                 <mvc:XMLView class="h-100" viewName="restaurant00045.view.Tables" />
               </IconTabFilter>
-              <IconTabFilter key="reservations" text="{i18n>adminTabsReservations}" />
+              <IconTabFilter key="reservations" text="{i18n>adminTabsReservations}">
+                <mvc:XMLView class="h-100" viewName="restaurant00045.view.Reservations" />
+              </IconTabFilter>
             </items>
           </IconTabBar>
         </layout:flexContent>
