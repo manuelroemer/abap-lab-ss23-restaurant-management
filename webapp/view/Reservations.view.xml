@@ -41,6 +41,9 @@
           emptySpanM="0"
           emptySpanS="0">
           <f:content>
+            <Label text="{i18n>reservationDetailsId}" />
+            <Text text="{svc>Id}" />
+
             <Label text="{i18n>reservationDetailsEmailLabel}" />
             <Text text="{svc>Email}" />
 
