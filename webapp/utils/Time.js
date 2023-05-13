@@ -9,5 +9,11 @@ sap.ui.define([], () => {
     return new Date(to.getTime() + hours * 60 * 60 * 1000);
   }
 
-  return { getTomorrow, addHours };
+  function getEpoch(date) {
+    const result = new Date(date);
+    result.setHours(0, 0, 0, 0);
+    return result;
+  }
+
+  return { getTomorrow, addHours, getEpoch };
 });

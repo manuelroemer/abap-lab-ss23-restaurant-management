@@ -5,6 +5,24 @@ sap.ui.define(
    * @param {typeof sap.base.util.merge} merge
    */
   (JSONModel, merge) => {
+    /**
+     * A simple state management implementation based on SAPUI5's JSONModel.
+     * The shape is inspired by Vue - a state has data, computed functions and methods.
+     * State can be initialized by multiple initializers to allow for modularization.
+     *
+     * ## Example:
+     * ```js
+     * const myState = create({
+     *   data: { count: 0 },
+     *   computed: { doubleCount({ count}) { return count * 2; }},
+     *   methods: { printCount: ({ get }) => console.log(get().doubleCount), },
+     * });
+     *
+     * myState.set({ count: 1 });
+     * myState.printCount(); // 2
+     * ```
+     * @param  {...any} stateInitializers Initializer functions which define the state's shape.
+     */
     function create(...stateInitializers) {
       const model = new JSONModel({});
 
@@ -205,23 +223,6 @@ sap.ui.define(
       });
     }
 
-    /**
-     *
-     */
-    function createODataCreateMutation({ key }) {
-      return createMutation({
-        key,
-        mutate(odataModel, path, entity) {
-          return new Promise((res, rej) =>
-            odataModel.create(path, entity, {
-              success: res,
-              error: rej,
-            }),
-          );
-        },
-      });
-    }
-
-    return { create, createMutation, createODataCreateMutation };
+    return { create, createMutation };
   },
 );

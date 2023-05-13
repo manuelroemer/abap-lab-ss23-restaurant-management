@@ -12,56 +12,73 @@ sap.ui.define(
   (
     BaseController,
     Filter,
-    { create, createODataCreateMutation },
-    { getTomorrow, addHours },
+    { create, createMutation },
+    { getTomorrow, addHours, getEpoch },
     { getReservationTimeSelectOptions },
   ) => {
     function createControllerState() {
-      return create(createODataCreateMutation({ key: 'formMutation' }), ({ get }) => ({
-        data: {
-          minDate: getTomorrow(),
-          timeOptions: [{ text: '' }, ...getReservationTimeSelectOptions()],
-          form: {
-            Email: '',
-            Guests: 1,
-            Date: undefined,
-            Time: undefined,
-            Table: undefined,
-            Notes: '',
+      return create(
+        createMutation({
+          key: 'submitMutation',
+          mutate(odataModel, path, entity) {
+            return new Promise((res, rej) =>
+              entity.Id
+                ? odataModel.update(`${path}('${entity.Id}')`, entity, { success: res, error: rej })
+                : odataModel.create(path, entity, { success: res, error: rej }),
+            );
           },
-        },
-        computed: {
-          timeWindow({ form, timeOptions }) {
-            const date = form.Date;
-            const time = timeOptions.find((x) => x.text === form.Time);
+        }),
+        ({ get }) => ({
+          data: {
+            minDate: getTomorrow(),
+            timeOptions: [{ text: '' }, ...getReservationTimeSelectOptions()],
+            form: {
+              Id: undefined,
+              Email: '',
+              Guests: 1,
+              Date: undefined,
+              Time: undefined,
+              Table: undefined,
+              Notes: '',
+            },
+          },
+          computed: {
+            isEditing({ form}) {
+              return !!form.Id;
+            },
+            timeWindow({ form, timeOptions }) {
+              const date = form.Date;
+              const time = timeOptions.find((x) => x.text === form.Time);
 
-            if (!date || !time) {
-              return { startsAt: undefined, endsAt: undefined };
-            }
+              if (!date || !time) {
+                return { startsAt: undefined, endsAt: undefined };
+              }
 
-            const startsAt = new Date(date.getTime() + time.hour * 60 * 60 * 1000 + time.minute * 60 * 1000);
-            const endsAt = addHours(startsAt, 2);
-            return { startsAt, endsAt };
+              const startsAt = new Date(date.getTime() + time.hour * 60 * 60 * 1000 + time.minute * 60 * 1000);
+              const endsAt = addHours(startsAt, 2);
+              return { startsAt, endsAt };
+            },
+            canSubmit({ submitMutation, form }) {
+              const isFormValid = !!form.Table && !!form.Email && !!form.Date && !!form.Time && !!form.Guests > 0;
+              return !submitMutation.isPending && isFormValid;
+            },
           },
-          canSubmit({ formMutation, form }) {
-            const isFormValid = !!form.Table && !!form.Email && !!form.Date && !!form.Time && !!form.Guests > 0;
-            return !formMutation.isPending && isFormValid;
+          methods: {
+            async submit(odataModel) {
+              const { form, timeWindow } = get();
+              this.submitMutation.mutate(odataModel, '/ReservationSet', {
+                Id: form.Id,
+                Email: form.Email,
+                Guests: form.Guests,
+                StartsAt: timeWindow.startsAt,
+                EndsAt: timeWindow.endsAt,
+                Notes: form.Notes,
+                TableId: form.Table,
+              });
+            },
           },
-        },
-        methods: {
-          async submit(odataModel) {
-            const { form, timeWindow } = get();
-            this.formMutation.mutate(odataModel, '/ReservationSet', {
-              Email: form.Email,
-              Guests: form.Guests,
-              StartsAt: timeWindow.startsAt,
-              EndsAt: timeWindow.endsAt,
-              Notes: form.Notes,
-              TableId: form.Table,
-            });
-          },
-        },
-      }));
+        }),
+      );
     }
 
     class BookController extends BaseController {
@@ -73,39 +90,68 @@ sap.ui.define(
         // Only those tables that are free at the selected time window should be shown.
         // The backend takes care of the querying, but we must update the binding to tell the backend the
         // current time window and number of seats.
-        this.disposeStateSubscription = this.state.subscribe(({ get }) => {
-          const tablesSelect = this.byId('tablesSelect');
-          const {
-            timeWindow: { startsAt, endsAt },
-            form,
-          } = get();
+        this.disposeStateSubscription = this.state.subscribe(() => this.rebindTablesSelect());
 
-          if (startsAt && endsAt) {
-            tablesSelect.bindItems({
-              path: '/TableSet',
-              model: 'svc',
-              template: new sap.ui.core.Item({
-                key: '{svc>Id}',
-                text: "{= ${svc>Description} || '-'} / {= ${svc>Location} || '-'} / {= ${svc>Decoration} || '-'} / {= ${svc>Seats} || '-'} {i18n>bookFormSeats}",
-              }),
-              filters: [
-                new Filter({
-                  path: 'Seats',
-                  operator: 'GE',
-                  value1: form.Guests,
-                }),
-              ],
-              parameters: {
-                custom: {
-                  freeAtStart: startsAt.toISOString(),
-                  freeAtEnd: endsAt.toISOString(),
-                },
+        this.router.getRoute('Book').attachPatternMatched((e) => {
+          const reservationId = e.getParameters()?.arguments?.reservationId;
+
+          if (reservationId) {
+            this.svc.read(`/ReservationSet('${reservationId}')`, {
+              success: (data) => {
+                this.state.set({
+                  form: {
+                    Id: data.Id,
+                    Email: data.Email,
+                    Guests: data.Guests,
+                    Date: getEpoch(data.StartsAt),
+                    Time: this.state
+                      .get()
+                      .timeOptions.find(
+                        (x) => x.hour === data.StartsAt.getHours() && x.minute == data.StartsAt.getMinutes(),
+                      )?.text,
+                    Table: data.TableId,
+                    Notes: data.Notes,
+                  },
+                });
+                this.rebindTablesSelect();
               },
             });
-          } else {
-            tablesSelect.unbindItems();
           }
         });
+      }
+
+      rebindTablesSelect() {
+        const tablesSelect = this.byId('tablesSelect');
+        const {
+          timeWindow: { startsAt, endsAt },
+          form,
+        } = this.state.get();
+
+        if (startsAt && endsAt) {
+          tablesSelect.bindItems({
+            path: '/TableSet',
+            model: 'svc',
+            template: new sap.ui.core.Item({
+              key: '{svc>Id}',
+              text: "{= ${svc>Description} || '-'} / {= ${svc>Location} || '-'} / {= ${svc>Decoration} || '-'} / {= ${svc>Seats} || '-'} {i18n>bookFormSeats}",
+            }),
+            filters: [
+              new Filter({
+                path: 'Seats',
+                operator: 'GE',
+                value1: form.Guests,
+              }),
+            ],
+            parameters: {
+              custom: {
+                freeAtStart: startsAt.toISOString(),
+                freeAtEnd: endsAt.toISOString(),
+              },
+            },
+          });
+        } else {
+          tablesSelect.unbindItems();
+        }
       }
 
       onExit() {

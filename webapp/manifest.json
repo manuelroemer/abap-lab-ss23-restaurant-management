@@ -99,7 +99,7 @@
           "target": "Main"
         },
         {
-          "pattern": "book",
+          "pattern": "book/:reservationId:",
           "name": "Book",
           "target": "Book"
         },
