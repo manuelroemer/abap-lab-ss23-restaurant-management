@@ -5,6 +5,7 @@ sap.ui.define(
     'restaurant00045/utils/State',
     'restaurant00045/utils/Time',
     'restaurant00045/utils/Restaurant',
+    'sap/m/MessageBox',
   ],
   /**
    * @param {typeof restaurant00045.controller.BaseController} BaseController
@@ -15,6 +16,7 @@ sap.ui.define(
     { create, createMutation },
     { getTomorrow, addHours, getEpoch },
     { getReservationTimeSelectOptions },
+    MessageBox,
   ) => {
     function createControllerState() {
       return create(
@@ -23,11 +25,20 @@ sap.ui.define(
         createMutation({
           key: 'submitMutation',
           mutate(odataModel, path, entity) {
-            return new Promise((res, rej) =>
-              entity.Id
-                ? odataModel.update(`${path}('${entity.Id}')`, entity, { success: res, error: rej })
-                : odataModel.create(path, entity, { success: res, error: rej }),
-            );
+            return new Promise((res, rej) => {
+              const success = (data) => {
+                if (data?.Id) {
+                  MessageBox.information(
+                    `Thanks! Your reservation has been confirmed. Your unique reservation ID is ${data.Id}. Please remember it for later reference if you want to edit it.`,
+                  );
+                }
+                res();
+              };
+
+              return entity.Id
+                ? odataModel.update(`${path}('${entity.Id}')`, entity, { success, error: rej })
+                : odataModel.create(path, entity, { success, error: rej });
+            });
           },
         }),
         ({ get }) => ({
@@ -45,7 +56,7 @@ sap.ui.define(
             },
           },
           computed: {
-            isEditing({ form}) {
+            isEditing({ form }) {
               return !!form.Id;
             },
             timeWindow({ form, timeOptions }) {
