@@ -1,10 +1,11 @@
 sap.ui.define(
-  ['sap/ui/model/json/JSONModel', 'sap/base/util/merge'],
+  ['sap/ui/model/json/JSONModel', 'sap/base/util/merge', 'sap/base/util/deepClone'],
   /**
    * @param {typeof sap.ui.model.json.JSONModel} JSONModel
    * @param {typeof sap.base.util.merge} merge
+   * @param {typeof sap.base.util.deepClone} deepClone
    */
-  (JSONModel, merge) => {
+  (JSONModel, merge, deepClone) => {
     /**
      * A simple state management implementation based on SAPUI5's JSONModel.
      * The shape is inspired by Vue - a state has data, computed functions and methods.
@@ -59,13 +60,15 @@ sap.ui.define(
         controller.getView().setModel(model, modelName);
       };
 
+      const reset = () => set(deepClone(initialData), true);
+
       const inits = stateInitializers.map((initializer) => initializer({ get, set }));
       const initialData = merge({}, ...inits.map((i) => i.data));
       const methods = merge({}, ...inits.map((i) => i.methods));
       const computations = merge({}, ...inits.map((i) => i.computed));
 
       // Set the initial data that was handed by the initializers.
-      set(initialData, true);
+      reset();
 
       // The JSONModel primarily uses two-way binding.
       // We must react to outside changes in the model to update computed values.
@@ -77,6 +80,7 @@ sap.ui.define(
         model,
         get,
         set,
+        reset,
         subscribe,
         connect,
         ...methods,

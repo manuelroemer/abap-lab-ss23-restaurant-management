@@ -61,12 +61,12 @@
         </VBox>
 
         <VBox visible="{/submitMutation/isSuccess}">
-          <Title text="Your reservation has been confirmed!" />
-          <Text text="Thank you! Your reservation has been confirmed." />
+          <Title text="{i18n>bookSuccessTitle}" />
+          <Text text="{i18n>bookSuccess}" />
         </VBox>
 
         <VBox visible="{/submitMutation/isError}">
-          <Text text="Sorry, there was an error. Please try again." />
+          <Text text="{i18n>bookError}" />
         </VBox>
       </FlexBox>
     </content>

@@ -18,6 +18,8 @@ sap.ui.define(
   ) => {
     function createControllerState() {
       return create(
+        // Mutation that submits OR creates a new reservation, depending on whether we're in edit mode
+        // (edit mode === presence of an Id that's not falsy).
         createMutation({
           key: 'submitMutation',
           mutate(odataModel, path, entity) {
@@ -85,6 +87,7 @@ sap.ui.define(
       onInit() {
         this.state = createControllerState();
         this.state.connect(this);
+        this.router.attachRoutePatternMatched(() => this.state.reset());
 
         // Whenever the form (the state) changes, we want to update the tables that are displayed in the form.
         // Only those tables that are free at the selected time window should be shown.
@@ -92,6 +95,9 @@ sap.ui.define(
         // current time window and number of seats.
         this.disposeStateSubscription = this.state.subscribe(() => this.rebindTablesSelect());
 
+        // For editing:
+        // The reservation ID to be updated comes from the URL params.
+        // Simply fetch the current state and populate the form with it.
         this.router.getRoute('Book').attachPatternMatched((e) => {
           const reservationId = e.getParameters()?.arguments?.reservationId;
 
@@ -120,6 +126,7 @@ sap.ui.define(
         });
       }
 
+      /** Sets the binding path of the tables select to the endpoint which lists all available tables for the current time frame. */
       rebindTablesSelect() {
         const tablesSelect = this.byId('tablesSelect');
         const {
