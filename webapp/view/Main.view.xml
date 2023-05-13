@@ -28,6 +28,17 @@
           <f:Card>
             <f:header>
               <cards:Header
+                press="onBookEditPress"
+                title="{i18n>mainBookEditCardTitle}"
+                subtitle="{i18n>mainBookEditCardSubtitle}"
+                iconSrc="sap-icon://edit"
+              />
+            </f:header>
+          </f:Card>
+
+          <f:Card>
+            <f:header>
+              <cards:Header
                 press="onAdminPress"
                 title="{i18n>mainAdminCardTitle}"
                 subtitle="{i18n>mainAdminCardSubtitle}"
@@ -37,6 +48,22 @@
           </f:Card>
         </grid:CSSGrid>
       </FlexBox>
+
+      <Dialog id="bookEditDialog" title="{i18n>mainBookEditDialogTitle}">
+        <content>
+          <VBox class="sapUiLargeMargin">
+            <Text text="{i18n>mainBookEditDialogDesc}" />
+            <Label text="{i18n>mainBookEditDialogLabel}" class="sapUiLargeMarginTop" />
+            <Input id="bookEditDialogReservationId" />
+          </VBox>
+        </content>
+        <beginButton>
+          <Button text="{i18n>mainBookEditDialogSubmitButton}" press=".onBookEditDialogSubmit" />
+        </beginButton>
+        <endButton>
+          <Button text="{i18n>mainBookEditDialogCancelButton}" press=".onBookEditDialogCancel" />
+        </endButton>
+      </Dialog>
     </content>
   </Page>
 </mvc:View>
